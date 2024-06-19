@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "previoSeminarioFlutter",
+            "name": "SpotFinder",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "previoSeminarioFlutter (profile mode)",
+            "name": "SpotFinder (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "previoSeminarioFlutter (release mode)",
+            "name": "SpotFinder (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
