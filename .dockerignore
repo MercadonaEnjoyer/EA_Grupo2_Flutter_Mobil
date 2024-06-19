@@ -1,0 +1,11 @@
+.git
+.gitignore
+.dart_tool
+.pub
+.vscode
+.analysis-options
+build/
+.vscode/
+android/
+ios/
+.idea/
