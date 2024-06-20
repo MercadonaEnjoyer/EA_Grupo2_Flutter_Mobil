@@ -7,7 +7,7 @@ import 'package:spotfinder/Services/UserService.dart';
 
 
 class ActivityService {
-  final String baseUrl = "http://127.0.0.1:3000";
+  final String baseUrl = "https://back.spotfinder.duckdns.org";
   final Dio dio = DioSingleton.instance;
   var statusCode;
   var data;

@@ -4,7 +4,7 @@ import 'package:spotfinder/Models/CommentModel.dart';
 import 'package:spotfinder/Services/TokenService.dart';
 
 class CommentService {
-  final String baseUrl = "http://127.0.0.1:3000"; // URL de tu backend
+  final String baseUrl = "https://back.spotfinder.duckdns.org"; // URL de tu backend
   final Dio dio = DioSingleton.instance;
   var statusCode;
   var data;

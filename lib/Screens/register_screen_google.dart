@@ -49,7 +49,7 @@ class _RegisterGoogleScreenState extends State<RegisterGoogleScreen> {
 
   // Función para enviar datos al backend usando dio
   Future<void> sendDataToBackend() async {
-    const String baseUrl = 'http://127.0.0.1:3000';
+    const String baseUrl = 'https://back.spotfinder.duckdns.org';
 
     try {
       // Construir el cuerpo de la solicitud

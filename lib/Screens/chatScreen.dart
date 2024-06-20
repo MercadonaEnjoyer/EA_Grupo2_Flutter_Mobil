@@ -31,7 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     socket = IO.io(
-        "http://127.0.0.1:3000",
+        "https://back.spotfinder.duckdns.org",
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()

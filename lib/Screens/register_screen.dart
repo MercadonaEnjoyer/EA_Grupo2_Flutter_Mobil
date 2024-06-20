@@ -157,6 +157,37 @@ class _RegisterScreen extends State<RegisterScreen> {
                         onPressed: _togglePasswordVisibility,
                       ),
                     ),
+                                        const SizedBox(height: 4),
+                     Obx(() => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'La contraseña debe contener:',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    _buildCriteriaItem(
+                                      'Al menos 8 caracteres',
+                                      controller.passwordCriteria['length']!,
+                                    ),
+                                    _buildCriteriaItem(
+                                      'Al menos una letra mayúscula',
+                                      controller.passwordCriteria['uppercase']!,
+                                    ),
+                                    _buildCriteriaItem(
+                                      'Al menos una letra minúscula',
+                                      controller.passwordCriteria['lowercase']!,
+                                    ),
+                                    _buildCriteriaItem(
+                                      'Al menos un número',
+                                      controller.passwordCriteria['number']!,
+                                    ),
+                                    _buildCriteriaItem(
+                                      'Al menos un carácter especial (@\$!%*?&)',
+                                      controller.passwordCriteria['special']!,
+                                    ),
+                                  ],
+                                )),
                     const SizedBox(height: 4),
                     SignUpButton(onPressed: () => controller.signUp(), text: 'Sign up')
                   ],
@@ -166,6 +197,23 @@ class _RegisterScreen extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCriteriaItem(String text, bool met) {
+    return Row(
+      children: [
+        Icon(
+          met ? Icons.check_circle : Icons.cancel,
+          color: met ? Colors.green : Colors.red,
+          size: 20,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ),
+      ],
     );
   }
 }
@@ -181,9 +229,36 @@ class RegisterController extends GetxController {
   late String date;
 
   var selectedPrefix = '+34'.obs;
+  var passwordCriteria = {
+    'length': false,
+    'uppercase': false,
+    'lowercase': false,
+    'number': false,
+    'special': false,
+  }.obs;
 
-  bool invalid = false;
-  bool parameters = false;
+  @override
+  void onInit() {
+    super.onInit();
+    contrasenaController.addListener(validatePasswordCriteria);
+  }
+
+  @override
+  void onClose() {
+    contrasenaController.removeListener(validatePasswordCriteria);
+    contrasenaController.dispose();
+    super.onClose();
+  }
+
+  void validatePasswordCriteria() {
+    String password = contrasenaController.text;
+    passwordCriteria['length'] = password.length >= 8;
+    passwordCriteria['uppercase'] = password.contains(RegExp(r'[A-Z]'));
+    passwordCriteria['lowercase'] = password.contains(RegExp(r'[a-z]'));
+    passwordCriteria['number'] = password.contains(RegExp(r'\d'));
+    passwordCriteria['special'] = password.contains(RegExp(r'[@$!%*?&]'));
+    passwordCriteria.refresh();
+  }
 
   void selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -199,6 +274,13 @@ class RegisterController extends GetxController {
       birthdayController.text = formattedDate;
       date = utcDate.toIso8601String();
     }
+  }
+
+  bool validatePassword(String password) {
+    final RegExp passwordRegExp = RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+    );
+    return passwordRegExp.hasMatch(password);
   }
 
   void signUp() {

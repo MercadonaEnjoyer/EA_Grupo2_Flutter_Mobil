@@ -71,7 +71,7 @@ class TokenRefreshService {
     try {
       final refreshToken = box.read('refresh_token');
       if (refreshToken != null) {
-        final response = await dio.post('http://127.0.0.1:3000/refresh_token',
+        final response = await dio.post('https://back.spotfinder.duckdns.org/refresh_token',
             data: {'refresh_token': refreshToken});
         var token = response.data['token'];
         var refresh_token = response.data['refreshToken'];
